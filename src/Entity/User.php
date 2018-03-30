@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="UserRepository")
  * @UniqueEntity("email")
  * @UniqueEntity("username")
  */
@@ -46,16 +49,31 @@ class User implements UserInterface, \Serializable
     private $registerDate;
     
      /**
+     *  
      * @ORM\Column(type="string", length=100)
      */
     private $roles;
+
+     /**
+     * //la ligne ci dessous signifie qu'un user aura plusieurs produits
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="owner")
+     * // indique que lorsqu'il créera des getter et setter, il faudra qu'il les crée pour la class Collection products
+     * @var Collection products
+     */    
+    private $products;  //objet de la class objetcollection et qui contiendra la liste de tous les prod d un user
     
+    public function __construct() {
+        $this->products=new ArrayCollection();
+    }    
     public function setRoles($roles) {
         $this->roles = $roles;
     }
-
-    
-    public function getId()
+    //pour generer automatiquement les getter/setter: alt+inser puis selectionner getter/setter 
+    public function getProducts(): Collection {
+        return $this->products;
+    }
+  
+        public function getId()
     {
         return $this->id;
     }

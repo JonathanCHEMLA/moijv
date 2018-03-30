@@ -20,6 +20,9 @@ class UserFixtures extends Fixture
            $user->setEmail('user'.$i.'@fake.fr');
            $user->setRegisterDate(new \DateTime('-'.$i.' days'));
            $user->setRoles('ROLE_USER');
+           //addReference est une methode dans Fixture ou une classe parente au dessus encore.
+           //addReference garde en référence notre $user sous un certain nom, de façon à le rendre disponible dans les autres fixtures
+           $this->addReference('user'.$i,$user);
            
            //manager persist demande a doctrine de prepare l'insertion de 
            //l'entité en BDD. Cela revient à demander un INSERT INTO/UPDATE
@@ -31,6 +34,7 @@ class UserFixtures extends Fixture
         $admin->setEmail('admin@mail.fr');
         $admin->setRegisterDate(new \DateTime('now'));
         $admin->setRoles('ROLE_USER|ROLE_ADMIN');
+        
         
         $manager->persist($admin);
         

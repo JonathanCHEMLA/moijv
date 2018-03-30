@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,6 +20,19 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
+    public function findPaginated($page=1)
+    {
+        //cree un outil qui permet de generer des requetes. on recherche par id, dans l'ordre croissant
+        $queryBuilder = $this->createQueryBuilder('p')->orderBy('p.id', 'ASC');//l'alias est obligatoire et mettre tous les alias de la requete(meme max,min...)
+        //on a besoin d'un intermediaire pour aller a pagerfanta car pagerfanta est generique:il peut sadapter a plusieurs ORM(ex: elastic search...)
+        $adapter = new DoctrineORMAdapter($queryBuilder);
+        //on cree un objet fanta 
+        $fanta = new Pagerfanta($adapter);
+        //permet de definir quelle est la page courante et le nb max par page
+        return $fanta->setMaxPerPage(12)->setCurrentPage($page);
+        
+    }
+    
 
 //    /**
 //     * @return Product[] Returns an array of Product objects
