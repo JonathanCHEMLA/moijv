@@ -1,5 +1,6 @@
 <?php
-
+// ce fichier n'est ni un controller, ni un model. c'est uniquemnet pour le dev'.
+// doctrine:fixtures:load permet de regenerer nos 150 fixtures dans notre base de donnees.
 namespace App\DataFixtures;//(attention a ne pas l'oublier: ctrl+shift+i)
 
 
@@ -20,6 +21,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
            $prod->setTitle('produit '.$i);
            $prod->setDescription("Description de mon produit n°$i");           
            $prod->setowner($this->getReference('user'.rand(0,59)));
+           $prod->setImage("uploads/500x325.png");
            //manager persist(=enregistre) demande a doctrine de prepare l'insertion de 
            //l'entité en BDD. Cela revient à demander un INSERT INTO/UPDATE
            $manager->persist($prod);

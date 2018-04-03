@@ -2,4 +2,5 @@ twig:
     paths: ['%kernel.project_dir%/templates']
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    #on a modifié la ligne ci-dessous pour avoir un affichage en bootstrap; c'est plus joli
     form_themes: ['bootstrap_4_layout.html.twig']

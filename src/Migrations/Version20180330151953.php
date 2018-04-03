@@ -10,6 +10,7 @@ use Doctrine\DBAL\Schema\Schema;
  */
 class Version20180330151953 extends AbstractMigration
 {
+    //c'est migrations:migrate qui execute ces requetes ci dessous
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs

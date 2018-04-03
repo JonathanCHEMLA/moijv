@@ -1,3 +1,5 @@
+#elle gere les droits d'acces et a quelle route et present le formulaire de login. Elle sert a controler que le user ait acces ait acces a telle ou telle page.
+#ca sert a verif que qq qui accede a une page a le droit d y acceder et qu'il est abilite a le faire
 security:
     encoders:
         App\Entity\User:
@@ -35,5 +37,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        #le ^siginfie: qui commence par:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/product, roles: ROLE_USER }
