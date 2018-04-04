@@ -1,9 +1,15 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+<!--cette page affiche la liste de TOUS les Produits, ajoutés par Tous les Utilisateurs-->    
     {# Commentaire #}
     <h1>Partagez vos jeux sur MoiJV!!!</H1>
     {# <p><?php echo $msg; ?> #}
     <h2>Bienvenue sur la page d'accueil !</h2>
     
+    <!--'home_paginated' se trouve dans homeController-->
+    {% include 'incs/product_list.html.twig' with { 'products' : products,'routeName':'home_paginated'} %}
+    
+    <!--index.html.twig contient juste la liste de tous les pdt de l'user connecté-->
+    <!--home.html.twig contient la liste de tous les produits de tous les users (moyen memotechnique: HOME = ALL )-->
 {% endblock %}

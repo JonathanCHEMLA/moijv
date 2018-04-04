@@ -1,5 +1,5 @@
 <?php
-
+// c est pour le formulaire des produits
 namespace App\Form;
 
 use App\Entity\Product;

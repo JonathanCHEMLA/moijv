@@ -17,11 +17,24 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
         for($i=0; $i<150;$i++)
         {
            $prod = new Product();
-
            $prod->setTitle('produit '.$i);
-           $prod->setDescription("Description de mon produit n°$i");           
+           $prod->setDescription("Description de mon produit n°$i");     
+           $prod->setImage("uploads/500x325.png");  
+           //un produit est depose par un seul et unique user choisi au hasard parmi les 60 user
            $prod->setowner($this->getReference('user'.rand(0,59)));
-           $prod->setImage("uploads/500x325.png");
+           for($j=0;$j<rand(0,4);$j++)
+           {
+               // des references ce sont des objets et non pas des id ou des names...
+               //addRef->getRef. this est "l'objet qui permet de generer des ProduitsFaux" et non pas un "Produit" 
+               $tag=$this->getReference('tag'.rand(0,39));
+               
+               //dans product.php,
+               //on ajoute ce tag a ma liste de tags de mon produit
+               // cela fait aussi l'inverse: ca ajoute mon produit a la liste des produits de mon tag
+               // et cela evite les doublons:
+               $prod->addTag($tag);
+           }
+           
            //manager persist(=enregistre) demande a doctrine de prepare l'insertion de 
            //l'entité en BDD. Cela revient à demander un INSERT INTO/UPDATE
            $manager->persist($prod);
@@ -33,7 +46,8 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     { // sert a dire que productsfixtures ne doit pas s'executer avant userfixtures(en effet, l'execution des fixtrues se fait par ordre alphabetique) 
         return [
-            UserFixtures::class
+            UserFixtures::class,
+            TagFixtures::class
         ];
     }
 }

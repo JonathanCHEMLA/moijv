@@ -1,5 +1,5 @@
 <?php
-
+//tout ce qui a trait a l'autentification, login...
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

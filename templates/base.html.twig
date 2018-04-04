@@ -30,16 +30,26 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Accueil
+              <a class="nav-link" href="{{path('home')}}">Accueil
                 <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">&Agrave; propos</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Mes Produits</a>
-            </li>
+            <!-- est ce que l'user a le role d'utilisateur. granted=accordé,attribué -->
+            {% if is_granted('ROLE_USER')%}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{path('product')}}">Mes Produits</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{path('logout')}}">Déconnexion</a>
+                </li>
+             {%else%}           
+                <li class="nav-item">
+                  <a class="nav-link" href="{{path('login')}}">Connectez-vous</a>
+                </li>
+            {%endif%}
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
             </li>
@@ -60,7 +70,7 @@
     <!-- /.container -->
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
+    <footer class=" absolute-bottom py-3 bg-dark">
       <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
       </div>

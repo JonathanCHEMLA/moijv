@@ -1,5 +1,5 @@
 <?php
-
+//sert a gerer mes produiits
 namespace App\Controller; //il faut ouvrir les accolades avant! merci Nicolas !! ;)
 
 
@@ -26,8 +26,11 @@ class ProductController extends Controller
      * //cette ligne ci-dessous contient le reuqirements afin de pas rentrer en colision avec product/2, product/3 ...
      * @Route("/{page}", name="product_paginated", requirements={"page"="\d+"})
      */
+    //ProductRepository $productRepo est l'import du repository
     public function index(ProductRepository $productRepo, $page=1)
     {
+        //injecté comme dependance:ProductRepository $productRepo
+        //injecté dnas l'url:$page=1
         //cmt savoir que Controller,sité ci-dessus, est relié a l'entity user? RTFM(lis la ... de manuel/documentation)
         $productList=$productRepo->findPaginatedByUser($this->getUser(),$page);
         return $this->render('product/index.html.twig', [
@@ -42,8 +45,11 @@ class ProductController extends Controller
      * @Route("/delete/{id}", name="delete_product")
      * 
      */    
+    //ObjectManager $manager ca sert pâs a faire des requetes de select mais ca sert a faire des requetes de insert,update ou delete
     public function deleteProduct(Product $product, ObjectManager $manager)
     {
+        //injecté comme dependance: ObjectManager $manager
+        //injecté dnas l'url ET CONVERTI A LA VOLEE SOUS LA FORME D UN PRODUIT: Product $product
         //this est le controller.         
         //si le propriet du prod a un id different de celui du produit courabnt:
         // voir ligne 43 dans product.php
@@ -115,8 +121,9 @@ class ProductController extends Controller
             //hacher signifie transformer en une chaine de caratere, a partir de laquelle on ne peut pas revenir ensuite au nom de depart.
             //guessExtension car un hacker pourrait vouloir hacker l'extension. Php sait reconnaitre l'extension d'un fichier sans qu'on le lui dise.
             //move(nomdudossierousetruvelimage,nouveaunomdelimagequiluiseraattribue)
+            //guessExtension car l'user a tres bien pu modifier l'extension de son fichier php->jpg par ex, afin de hacker mon site et obtenir les infos secretes de mon site .symfony inspexcte le contenu du fchier et essaie de deviner s'il s'agit d'un jpg ou d'un php ou d'autre chose.
                 $newFileName=md5(uniqid()) . '.' . $image->guessExtension();
-               //je deplace $newFileName dans le dossier uploads
+               //je deplace $newFileName d'une localisation temporaire et le mets dans le dossier uploads
                 $image->move('uploads',$newFileName );
             //getpathname est une methode de l'objet File.Le pb est que l'adresse qu'il renvoie est l'adresse temporaire, qui 'effacera à l'issue de la manip; ce qu'on ne souhaite pas. 
             //mise a jour du nom de fichier dans la bdd. c est une trace de la création physique du fihcier dans le dosssier uploads
@@ -128,13 +135,14 @@ class ProductController extends Controller
             //flush envoie les infos a la bdd et vide ensuite le formulaire
             $manager->flush();
             //on le redirige vers la route qui s'appelle product
+            //redirect fait une redirection vers une page controler
             return $this->redirectToRoute('product');
         }
+        //render affiche un template
         return $this->render('product/edit_product.html.twig',[
            'form'=>$formProduct->createView() 
         ]);
         
-    }
-    
+    } 
     
 }

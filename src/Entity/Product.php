@@ -8,7 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Collection;
+use Doctrine\Common\Collections\Collection;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -65,15 +66,17 @@ class Product
      * dans mon entité "Tag" les produits s'appeleront "products"
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products") 
      * @var Collection
-     */   
+     */   // $tags est relié a la classe Tag grace a l'anotation du dessus:targetEntity="Tag"
     private $tags;
 
     public function __construct()
     {
         // ArrayCollection= un Array orienté objet.
+        //arraycollection implement bien la table Collection:voir au dessus "var Collection"
         $this-> tags=new ArrayCollection();
     }
     public function getTags(): Collection {
+        //retourne une arraycollection tags
         return $this->tags;
     }
 
@@ -128,6 +131,21 @@ class Product
     }
 // make:migration  permet de creer le fichier "version"
 //migrations:migrate nous a rajouté une colonne "image" dans notre bdd
-
-
+    
+    public function addTag($tag)
+    {
+        // fct qui prendra en parametre le tag a ajouter
+        // tags est notre collection(voir ligne 69 et 75). contains() est une method de arraycollection et qui implemente Collection
+        if($this->tags->contains($tag))
+        {//si les tags du produits contienent deja le tag qu'on essaie d'ajouter, alors il sort aussitot de la fct.
+            
+            return;//le return fait directement sortir de la fct
+        }
+        //on ajoute le tag a la liste des tags du produit
+        // chauqe prdt a des tags. j'ajoute un tag
+        $this->tags->add($tag);
+        // $tag, provenant de fixutures est passee en parametre. Getproduct vient de la class tag. on lui rajoute this qui est ici un pdt
+        $tag->getProducts()->add($this);
+    }
+// c'est le if qui permet de se premunir contre les doublons.
 }

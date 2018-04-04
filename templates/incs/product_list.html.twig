@@ -1,0 +1,38 @@
+
+<!-- Page Features -->
+<div class="row text-center">
+    <!--le products ci-dessous correspond au 'products' de index.html.twig-->
+    {%for product in products %}
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <!--asset est un emethode qui recupere le..........................-->
+                <img class="card-img-top" src="{{asset(product.image)}}" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">{{product.title}}</h4>
+                    <p class="card-text">{{product.description}}</p>
+                    <div>
+                        {%for tag in product.tags%}
+                            <!--badge crée des boutons. badge-info crée des boutons bleus. badge-pill crée des boutons arrondis-->
+                            <span class="badge badge-info badge-pill">#{{tag.name}}</span>
+                        {%endfor%}
+                    </div>
+                </div>
+                <!--si l'user a le role USER (donc tout le monde(l'admin et le simple user) sauf l'user non connecté) et que l'user connecté est bien le proprietaire du produit-->
+                {%if is_granted('ROLE_USER') and product.owner.id == app.user.id %}
+                    <div class="card-footer">
+                        <a href="{{path('edit_product',{'id':product.id}) }}" class="btn btn-primary">Modifier</a>
+                        <a href="{{path('delete_product',{'id':product.id}) }}" class="btn btn-danger">Supprimer</a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    {%endfor%}
+</div>
+
+<!-- /.row -->
+{% if products.haveToPaginate %}<!--have... est une methode de mon obj fanta-->
+    <div class="d-flex justify-content-center">
+        {{pagerfanta(products, 'twitter_bootstrap4', {'routeName':routeName}) }}
+    </div>
+{% endif %} 

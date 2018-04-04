@@ -1,5 +1,5 @@
 <?php
-
+//c est pour le formulaire d'inscription
 namespace App\Form;
 
 use App\Entity\User;
