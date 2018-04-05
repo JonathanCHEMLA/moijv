@@ -64,7 +64,8 @@ class Product
     
      /**
      * dans mon entité "Tag" les produits s'appeleront "products"
-     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products") 
+     * 'cascade=persist' signifie qu on lui demande que si mon pdt est sauvegarde, les tags associes seront enregistres ensuite. CA NE SERT QUE POUR DES TAGS QUI SONT ENREGISTRES POUR LA 1ere FIOS DANS LA BDD
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products", cascade="persist") 
      * @var Collection
      */   // $tags est relié a la classe Tag grace a l'anotation du dessus:targetEntity="Tag"
     private $tags;
@@ -75,10 +76,7 @@ class Product
         //arraycollection implement bien la table Collection:voir au dessus "var Collection"
         $this-> tags=new ArrayCollection();
     }
-    public function getTags(): Collection {
-        //retourne une arraycollection tags
-        return $this->tags;
-    }
+
 
 
         public function getOwner(): User {
@@ -147,5 +145,17 @@ class Product
         // $tag, provenant de fixutures est passee en parametre. Getproduct vient de la class tag. on lui rajoute this qui est ici un pdt
         $tag->getProducts()->add($this);
     }
+    public function getTags(): Collection 
+    {
+        //exporte la valeur tags et nous retourne une arraycollection tags
+        return $this->tags;
+    }    
 // c'est le if qui permet de se premunir contre les doublons.
-}
+    public function setTags(Collection $tags)
+    {
+        //importe une collection de $tags et fixe la valeur à la variable tags
+        $this-> tags= $tags;
+        return $this;
+    }
+
+}// Aller sur github.com/Cevantime/moijv et cliquer sur 10 commit, puis sur le code chiffré

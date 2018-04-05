@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des produits du Tag: #{{ tag.name }}{% endblock %}
+{#pour info, c est le slug(=la version url) qui sera dans l'url et nom le name du tag#}
+{% block body %}
+    <h1>{{ block('title') }}</h1>
+<!--on ne peut aps recuperer le contenu du title d'une autre page, par ex.-->    
+
+{%include 'incs/product_list.html.twig' with{'products': tagProducts, 'routeName':'tag_paginated'}%}
+{#on aurait pu laisser tag.Products,et symphony aurait fait lui meme l'affichage des prdt. Cela aurait fonctionné ! Mais cet affichage n'aurait pas été paginé! en mettant 'tagProducts' qu'on a créé, on affiche un resultat paginé #}
+{% endblock %}

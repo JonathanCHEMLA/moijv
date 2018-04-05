@@ -1,5 +1,11 @@
 
 {% extends "base.html.twig" %}
+{#c'est le template associe à notre formulaire de productType #}
+
+{%block stylesheets %}
+<link href="{{asset('css/selectize.css')}}" rel="stylesheet"/>
+<!--on utilise asset pour aller chercher directeent dans le dossier public-->
+{%endblock%}
 
 {% block body %}
     <div class="row">
@@ -11,3 +17,8 @@
         </div>
     </div>
 {% endblock %}
+
+{%block javascripts %}
+<script src="{{asset('js/selectize.js')}}"></script>
+<!--on utilise asset pour aller chercher directeent dans le dossier public-->
+{%endblock%}

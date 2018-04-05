@@ -13,7 +13,7 @@
                     <div>
                         {%for tag in product.tags%}
                             <!--badge crée des boutons. badge-info crée des boutons bleus. badge-pill crée des boutons arrondis-->
-                            <span class="badge badge-info badge-pill">#{{tag.name}}</span>
+                            <a href="{{path('tag',{'slug':tag.slug})}}" class="badge badge-info badge-pill">#{{tag.name}}</a>
                         {%endfor%}
                     </div>
                 </div>
@@ -31,7 +31,9 @@
 </div>
 
 <!-- /.row -->
-{% if products.haveToPaginate %}<!--have... est une methode de mon obj fanta-->
+
+{% if products.haveToPaginate %}
+    {#have... est une methode de mon obj fanta#}
     <div class="d-flex justify-content-center">
         {{pagerfanta(products, 'twitter_bootstrap4', {'routeName':routeName}) }}
     </div>

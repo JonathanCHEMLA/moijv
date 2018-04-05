@@ -15,7 +15,8 @@
 
     <!-- Custom styles for this template -->
     <link href="{{asset("css/heroic-features.css")}}" rel="stylesheet">
-
+    {%block stylesheets %}{%endblock%}
+    {#ici on n a pas fait un link comme pour la ligne du dessus car on souhaite le chargement de cette feuille de style SEULEMENT QUAND C EST NECESSAIRE #}
   </head>
 
   <body>
@@ -81,7 +82,7 @@
     <!--le asset sert a ne pas avoir beosin de mettre localhost/unDossier/unAutre/...-->
     <script src="{{asset("vendor/jquery/jquery.min.js")}}"></script>
     <script src="{{asset("vendor/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
-
+    {%block javascripts %}{%endblock%}
   </body>
 
 </html>

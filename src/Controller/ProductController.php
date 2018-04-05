@@ -79,6 +79,7 @@ class ProductController extends Controller
      */ 
     public function editProduct(Product $product = null, ObjectManager $manager,Request $request)
     {
+        // Request $request est passe en parametre pour pouvoir executer l'etape handleRequest, plus bas
         // "$product=null" car si c'est une insertion, il n'ya pas de produit à passer en parametre
         //produit n'exsite pas :on est en mode insertion
         if($product===null){
@@ -146,3 +147,16 @@ class ProductController extends Controller
     } 
     
 }
+//tous les ORM ne sont pas Doctrine mais Doctrine est un ORM
+//prodct repository n'affiche rien. Il recoit de la donnée
+//l'url nous a envoyé une page, le controler envoie cette page au repository
+//le controller ne fait que superviser. C est utile pour reutilisabilité du code
+// les vendor sont des modele 100% reutilisables.
+// quand on a resolu un pb, on na pas envie de le resoudre a chaque fois.
+//@method: c est pour la documentation. on declare a  notre id les methodes qu il  peut utilser.
+// $querybuilder: c est ce qui sert a contrsuire une requ(en sql,mongodb...). C'est un objet qui est crée des ->createQueryBuilder. il faut que ma table courante(donc la table produit) ait un alias(d ou 'p')
+//les tables doivent etre vu non c des table mais c des entite. Car en sql on va relier p.owner_id=u.id
+//on aurait pu faire un leftjoin car tous les pdts sont associes a un user. En revanche, on n aurait pas pu faire un rightjoin car tous les user n ont pas des produits.
+//addselect c st pour rajouter a ma requete toutes les colnnes de mon utilisateur
+//findPagined est pour la vue home, et findPaginedById, pour la vue index.
+//
