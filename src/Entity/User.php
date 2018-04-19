@@ -46,12 +46,10 @@ class User implements UserInterface, Serializable
 
     /**
      * @ORM\Column(type="datetime")
-     * 
      */
     private $registerDate;
     
      /**
-     *  
      * @ORM\Column(type="string", length=100)
      */
     private $roles;

@@ -13,7 +13,8 @@ use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
- * @UniqueEntity("title")// "unique coté application (pareil que pour l'exemple du cp
+ * @UniqueEntity("title")
+ * // "unique coté application (pareil que pour l'exemple du cp
  */
 class Product
 {
